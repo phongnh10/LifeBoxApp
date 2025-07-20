@@ -5,17 +5,23 @@
  * @format
  */
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import { RealmProvider } from './src/realm/providers/RealmProvider';
+import { SafeAreaView, StyleSheet } from 'react-native';
+import CustomStatusBar from './src/components/Statusbar/CustomStatusBar';
+import { COLORS } from './src/utils/colors';
+import AppNavigator from './src/navigator/AppNavigate';
+import Toast from 'react-native-toast-message';
+import './i18n';
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NewAppScreen templateFileName="App.tsx" />
-    </View>
+    // <RealmProvider>
+    <SafeAreaView style={styles.container}>
+      <CustomStatusBar backgroundColor={COLORS.backgroundSecondary} />
+      <AppNavigator />
+      <Toast />
+    </SafeAreaView>
+    // </RealmProvider>
   );
 }
 
