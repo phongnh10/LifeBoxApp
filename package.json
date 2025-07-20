@@ -26,7 +26,7 @@
     "react-native-screens": "^4.13.1",
     "react-native-toast-message": "^2.3.3",
     "react-native-vector-icons": "^10.2.0",
-    "realm": "^20.1.0"
+    "realm": "^12.14.2"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

@@ -15,13 +15,13 @@ import './i18n';
 
 function App() {
   return (
-    // <RealmProvider>
-    <SafeAreaView style={styles.container}>
-      <CustomStatusBar backgroundColor={COLORS.backgroundSecondary} />
-      <AppNavigator />
-      <Toast />
-    </SafeAreaView>
-    // </RealmProvider>
+    <RealmProvider>
+      <SafeAreaView style={styles.container}>
+        <CustomStatusBar backgroundColor={COLORS.backgroundSecondary} />
+        <AppNavigator />
+        <Toast />
+      </SafeAreaView>
+    </RealmProvider>
   );
 }
 

@@ -1,98 +1,103 @@
 import { BSON } from 'realm';
-import { useRealm } from '@realm/react'; // Import useRealm từ @realm/react
-import Toast from 'react-native-toast-message';
-import i18n from '../../../../i18n'; // Điều chỉnh đường dẫn cho phù hợp
-import { SCHEMA_KEYS } from '../../../keys'; // Điều chỉnh đường dẫn cho phù hợp
 
-export const useRegisterUser = () => {
-  // useRealm() phải được gọi ở cấp cao nhất của Hook này
-  // và Hook này phải được gọi trong một component nằm trong RealmProvider
-  const realm = useRealm();
+const createItem = (realm, schemaKey, data) => {
+  try {
+    const id = data.id || new BSON.UUID().toString();
 
-  const registerUser = async ({
-    // Đổi thành async nếu bạn muốn dùng await bên trong
-    user,
-    password,
-    confirmPassword,
-    language,
-    avatar,
-  }) => {
-    try {
-      // Kiểm tra đầu vào
-      if (!user || !password || !confirmPassword) {
-        Toast.show({
-          type: 'error',
-          text1: i18n.t('messages.error'),
-          text2: i18n.t('messages.requiredField'),
-        });
-        return false;
-      }
-
-      if (password.length < 8) {
-        Toast.show({
-          type: 'error',
-          text1: i18n.t('messages.error'),
-          text2: i18n.t('messages.passwordTooShort', { min: 8 }),
-        });
-        return false;
-      }
-
-      if (password !== confirmPassword) {
-        Toast.show({
-          type: 'error',
-          text1: i18n.t('messages.error'),
-          text2: i18n.t('messages.passwordNoMatch'),
-        });
-        return false;
-      }
-
-      // Kiểm tra user đã tồn tại
-      // Lưu ý: realm.objects() và filtered() là các thao tác đồng bộ
-      const isExist =
-        realm.objects(SCHEMA_KEYS.USER).filtered('user == $0', user).length > 0;
-
-      if (isExist) {
-        Toast.show({
-          type: 'error',
-          text1: i18n.t('messages.error'),
-          text2: i18n.t('messages.userExists'),
-        });
-        return false;
-      }
-
-      // Tạo user mới
-      // Thao tác ghi (write) là đồng bộ
-      realm.write(() => {
-        realm.create(SCHEMA_KEYS.USER, {
-          id: new BSON.UUID().toString(),
-          user,
-          password,
-          language: language || 'vi', // Sử dụng giá trị từ tham số hoặc mặc định
-          biometricEnabled: false,
-          avatar: avatar || '', // Sử dụng giá trị từ tham số hoặc mặc định
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        });
+    realm.write(() => {
+      realm.create(schemaKey, {
+        id,
+        ...data,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       });
+    });
 
-      Toast.show({
-        type: 'success',
-        text1: i18n.t('messages.success'),
-        text2: i18n.t('messages.registrationSuccess'),
-      });
+    return id;
+  } catch (error) {
+    console.error(`[Realm] Failed to create item in ${schemaKey}:`, error);
+    return null;
+  }
+};
 
-      return true;
-    } catch (error) {
-      console.error('Register user error:', error);
-      Toast.show({
-        type: 'error',
-        text1: i18n.t('messages.error'),
-        text2: i18n.t('messages.serverError'),
-      });
+const updateItem = (realm, schemaKey, id, updates) => {
+  try {
+    const item = realm.objectForPrimaryKey(schemaKey, id);
+    if (!item) {
+      console.warn(
+        `[Realm] No item found to update in ${schemaKey} with id: ${id}`,
+      );
       return false;
     }
-  };
 
-  // Trả về hàm registerUser để component có thể gọi
-  return registerUser;
+    realm.write(() => {
+      Object.keys(updates).forEach(key => {
+        item[key] = updates[key];
+      });
+      item.updatedAt = new Date();
+    });
+
+    return true;
+  } catch (error) {
+    console.error(
+      `[Realm] Failed to update item in ${schemaKey} with id: ${id}`,
+      error,
+    );
+    return false;
+  }
 };
+
+const deleteItem = (realm, schemaKey, id) => {
+  try {
+    const item = realm.objectForPrimaryKey(schemaKey, id);
+    if (!item) {
+      console.warn(
+        `[Realm] No item found to delete in ${schemaKey} with id: ${id}`,
+      );
+      return false;
+    }
+
+    realm.write(() => {
+      realm.delete(item);
+    });
+
+    return true;
+  } catch (error) {
+    console.error(
+      `[Realm] Failed to delete item in ${schemaKey} with id: ${id}`,
+      error,
+    );
+    return false;
+  }
+};
+
+const getItem = (realm, schemaKey, id) => {
+  try {
+    return realm.objectForPrimaryKey(schemaKey, id);
+  } catch (error) {
+    console.error(
+      `[Realm] Failed to get item in ${schemaKey} with id: ${id}`,
+      error,
+    );
+    return null;
+  }
+};
+
+const getAllItems = (realm, schemaKey) => {
+  try {
+    return realm.objects(schemaKey); // Có thể thêm: [...realm.objects(schemaKey)]
+  } catch (error) {
+    console.error(`[Realm] Failed to get all items from ${schemaKey}`, error);
+    return [];
+  }
+};
+
+const baseRepository = {
+  createItem,
+  updateItem,
+  deleteItem,
+  getItem,
+  getAllItems,
+};
+
+export default baseRepository;

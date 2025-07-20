@@ -14,19 +14,19 @@ const RegisterScreen = () => {
   const [password, setPassword] = useState('Phong123');
   const [confirmPassword, setConfirmPassword] = useState('Phong123');
 
-  // const registerUserFn = useRegisterUser();
+  const registerUserFn = useRegisterUser();
 
   const handleRegister = async () => {
-    // const success = await registerUserFn({
-    //   user,
-    //   password,
-    //   confirmPassword,
-    //   language: null,
-    //   avatar: null,
-    // });
-    // if (success) {
-    //   navigation.navigate('BottomTabNavigator');
-    // }
+    const success = await registerUserFn({
+      user,
+      password,
+      confirmPassword,
+      language: null,
+      avatar: null,
+    });
+    if (success) {
+      navigation.navigate('BottomTabNavigator');
+    }
   };
 
   const handleLogin = () => {
