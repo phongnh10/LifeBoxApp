@@ -5,23 +5,30 @@
  * @format
  */
 
-import { RealmProvider } from './src/realm/providers/RealmProvider';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import CustomStatusBar from './src/components/Statusbar/CustomStatusBar';
 import { COLORS } from './src/utils/colors';
 import AppNavigator from './src/navigator/AppNavigate';
 import Toast from 'react-native-toast-message';
 import './i18n';
+import { Provider } from 'react-redux';
+import store from './src/store/store';
+import { useEffect } from 'react';
+import { initAESKey } from './src/utils/crypto';
 
 function App() {
+  useEffect(() => {
+    initAESKey();
+  }, []);
+
   return (
-    <RealmProvider>
+    <Provider store={store}>
       <SafeAreaView style={styles.container}>
         <CustomStatusBar backgroundColor={COLORS.backgroundSecondary} />
         <AppNavigator />
         <Toast />
       </SafeAreaView>
-    </RealmProvider>
+    </Provider>
   );
 }
 

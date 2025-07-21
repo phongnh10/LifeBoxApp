@@ -9,13 +9,15 @@ const CustomButton = ({
   onPress,
   style,
   textStyle,
-  fullWidth = true,
+  fullWidth = false,
+  disabled = false,
 }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       style={[styles.button, fullWidth && { alignSelf: 'stretch' }, style]}
       activeOpacity={0.7}
+      disabled={disabled}
     >
       <Text style={[styles.buttonText, textStyle]}>{title}</Text>
     </TouchableOpacity>

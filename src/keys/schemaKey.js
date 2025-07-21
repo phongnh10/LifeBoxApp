@@ -12,5 +12,6 @@ export const SCHEMA_KEYS = {
   JOURNAL: 'Journal',
   MEDIA: 'Media',
   ARCHIVE: 'Archive',
+
   // Thêm key mới nếu bạn mở rộng app
 };
