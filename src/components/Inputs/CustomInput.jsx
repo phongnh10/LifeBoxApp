@@ -1,6 +1,6 @@
 import React from 'react';
-import { TextInput, StyleSheet, View } from 'react-native';
-import { COLORS, FONT_SIZES, SPACING } from '../../utils';
+import { TextInput, StyleSheet, View, Text } from 'react-native';
+import { COLORS, FONT_SIZES, FONT_WEIGHTS, SPACING } from '../../utils';
 
 const CustomInput = ({
   value,
@@ -9,24 +9,38 @@ const CustomInput = ({
   keyboardType = 'default',
   style,
   fullWidth = false,
+  title = 'Title',
   ...rest
 }) => (
   <View style={[styles.wrapper, fullWidth && { alignSelf: 'stretch' }, style]}>
-    <TextInput
-      value={value}
-      onChangeText={onChangeText}
-      placeholder={placeholder}
-      placeholderTextColor={COLORS.textSecondary}
-      keyboardType={keyboardType}
-      style={styles.input}
-      {...rest}
-    />
+    <View style={styles.content}>
+      <Text style={styles.textTilte}>{title}</Text>
+      <TextInput
+        value={value}
+        onChangeText={onChangeText}
+        placeholder={placeholder}
+        placeholderTextColor={COLORS.textSecondary}
+        keyboardType={keyboardType}
+        style={styles.input}
+        {...rest}
+      />
+    </View>
   </View>
 );
 
 const styles = StyleSheet.create({
   wrapper: {
     justifyContent: 'center',
+    gap: SPACING.s,
+  },
+  content: {
+    width: '100%',
+    flexDirection: 'column',
+    gap: SPACING.s,
+  },
+  textTilte: {
+    fontSize: FONT_SIZES.bodyRegular,
+    fontWeight: FONT_WEIGHTS.medium,
   },
   input: {
     padding: SPACING.l,

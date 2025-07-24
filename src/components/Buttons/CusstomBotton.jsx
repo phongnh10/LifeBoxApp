@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: COLORS.buttonPrimaryText,
     fontSize: FONT_SIZES.bodyRegular,
-    fontWeight: FONT_WEIGHTS.medium,
+    fontWeight: FONT_WEIGHTS.bold,
   },
 });
 

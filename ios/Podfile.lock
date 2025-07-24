@@ -2218,11 +2218,9 @@ PODS:
     - React-perflogger (= 0.80.1)
     - React-utils (= 0.80.1)
     - SocketRocket
-  - RealmJS (11.10.0):
-    - React
   - RNFS (2.20.0):
     - React-Core
-  - RNGestureHandler (2.27.1):
+  - RNGestureHandler (2.27.2):
     - boost
     - DoubleConversion
     - fast_float
@@ -2450,7 +2448,6 @@ DEPENDENCIES:
   - ReactAppDependencyProvider (from `build/generated/ios`)
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
-  - RealmJS (from `../node_modules/realm`)
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNLocalize (from `../node_modules/react-native-localize`)
@@ -2615,8 +2612,6 @@ EXTERNAL SOURCES:
     :path: build/generated/ios
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
-  RealmJS:
-    :path: "../node_modules/realm"
   RNFS:
     :path: "../node_modules/react-native-fs"
   RNGestureHandler:
@@ -2706,9 +2701,8 @@ SPEC CHECKSUMS:
   ReactAppDependencyProvider: ba631a31783569c13056dd57ff39e19764abdd6f
   ReactCodegen: b16d00d43b4e9dc44af53be171b17d93b4b20267
   ReactCommon: 96684b90b235d6ae340d126141edd4563b7a446a
-  RealmJS: c62e2a26971c68b140b1f822b7d2919720d41543
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
-  RNGestureHandler: c202f13fa95347076d8aca4ccb61739b067396cb
+  RNGestureHandler: 502fd35c8e1d326562536ff256e61e38d703eafb
   RNLocalize: 04178cdebf7d24821d25bc894343c6d2dd98374e
   RNScreens: 75074e642b69b086813a943bdf63da7085fb2166
   RNVectorIcons: 417c003b0ce7ac7748aa548720fd7127d1d74ded

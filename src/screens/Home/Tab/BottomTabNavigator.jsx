@@ -25,7 +25,7 @@ const BottomTabNavigator = () => {
           fontSize: 12,
         },
         tabBarIcon: ({ focused, color, size }) => {
-          let iconName = 'help-circle-outline'; // icon fallback
+          let iconName = 'help-circle-outline';
 
           if (route.name === 'NotesTab') {
             iconName = focused ? 'notebook' : 'notebook-outline';

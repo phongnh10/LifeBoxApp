@@ -1,33 +1,46 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
+import React, { useEffect } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
+import { Provider } from 'react-redux';
+import { PaperProvider } from 'react-native-paper';
+// @ts-ignore
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Toast from 'react-native-toast-message';
 import CustomStatusBar from './src/components/Statusbar/CustomStatusBar';
 import { COLORS } from './src/utils/colors';
-import AppNavigator from './src/navigator/AppNavigate';
-import Toast from 'react-native-toast-message';
-import './i18n';
-import { Provider } from 'react-redux';
-import store from './src/store/store';
-import { useEffect } from 'react';
 import { initAESKey } from './src/utils/crypto';
+import './i18n';
+import store from './src/redux/store';
+import AppNavigator from './src/navigator/AppNavigator';
+import { initDB } from './src/utils/databaseSetup';
 
 function App() {
   useEffect(() => {
     initAESKey();
+
+    const setupDB = async () => {
+      try {
+        await initDB();
+        console.log('Database initialized at app start');
+      } catch (error) {
+        console.error('Failed to initialize DB:', error);
+      }
+    };
+    setupDB();
   }, []);
 
   return (
     <Provider store={store}>
-      <SafeAreaView style={styles.container}>
-        <CustomStatusBar backgroundColor={COLORS.backgroundSecondary} />
-        <AppNavigator />
-        <Toast />
-      </SafeAreaView>
+      <PaperProvider
+        settings={{
+          icon: props => <MaterialCommunityIcons {...props} />,
+        }}
+      >
+        <SafeAreaView style={styles.container}>
+          <CustomStatusBar backgroundColor={COLORS.backgroundPrimary} />
+          <AppNavigator />
+          <Toast />
+        </SafeAreaView>
+      </PaperProvider>
     </Provider>
   );
 }
@@ -35,6 +48,7 @@ function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: COLORS.backgroundPrimary,
   },
 });
 

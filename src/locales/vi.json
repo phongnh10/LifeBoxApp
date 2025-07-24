@@ -1,7 +1,7 @@
 {
   "auth": {
     "register": "Đăng ký tài khoản mới",
-    "login": "Đăng nhập vào tài khoản của bạn",
+    "login": "Đăng nhập",
     "password": "Mật khẩu",
     "username": "Tên đăng nhập",
     "firstname": "Tên",
@@ -63,7 +63,7 @@
     "somethingWentWrong": "Đã xảy ra lỗi không mong muốn. Vui lòng thử lại sau.",
     "networkError": "Lỗi kết nối mạng. Vui lòng kiểm tra kết nối internet của bạn.",
     "invalidCredentials": "Tên đăng nhập hoặc mật khẩu không chính xác. Vui lòng thử lại.",
-    "emailAlreadyExists": "Địa chỉ email này đã được sử dụng. Vui lòng chọn email khác.",
+    "emailAlreadyExists": "Tên đăng nhập này đã được sử dụng. Vui lòng chọn Tên đăng nhập khác.",
     "passwordMismatch": "Mật khẩu xác nhận không khớp với mật khẩu đã nhập.",
     "requiredField": "Trường này là bắt buộc và không được để trống.",
     "passwordTooShort": "Mật khẩu phải có ít nhất {min} ký tự.",
@@ -88,5 +88,25 @@
     "mustContainUppercase": "Phải chứa ít nhất một chữ hoa.",
     "mustContainLowercase": "Phải chứa ít nhất một chữ thường.",
     "mustContainSpecialChar": "Phải chứa ít nhất một ký tự đặc biệt."
+  },
+  "notes": {
+    "title": "Ghi chú",
+    "addNote": "Thêm ghi chú",
+    "editNote": "Chỉnh sửa ghi chú",
+    "deleteNote": "Xoá ghi chú",
+    "noteTitle": "Tiêu đề ghi chú",
+    "noteContent": "Nội dung ghi chú",
+    "emptyNotes": "Bạn chưa có ghi chú nào.",
+    "save": "Lưu",
+    "cancel": "Huỷ",
+    "confirmDelete": "Bạn có chắc muốn xoá ghi chú này không?",
+    "createdAt": "Tạo lúc",
+    "updatedAt": "Cập nhật lúc",
+    "searchPlaceholder": "Tìm kiếm ghi chú...",
+    "noteSaved": "Đã lưu ghi chú thành công.",
+    "noteDeleted": "Đã xoá ghi chú.",
+    "noteUpdated": "Đã cập nhật ghi chú.",
+    "errorEmptyTitle": "Vui lòng nhập tiêu đề.",
+    "errorEmptyContent": "Vui lòng nhập nội dung."
   }
 }

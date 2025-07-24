@@ -1,69 +1,67 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import Toast from 'react-native-toast-message';
 import CustomButton from '../../components/Buttons/CusstomBotton';
 import CustomInput from '../../components/Inputs/CustomInput';
-import { COLORS, SPACING } from '../../utils';
-import { useDispatch, useSelector } from 'react-redux';
+import { BASE_COLORS, COLORS, SPACING } from '../../utils';
+import { loginRequest, userSelectors } from '../../redux/user/userSlice';
 import i18n from '../../../i18n';
-import Toast from 'react-native-toast-message';
-import { loginUser } from '../../store/users';
+import FullScreenLoader from '../../components/Loading/FullScreenLoader';
+import CustomInputPass from '../../components/Inputs/CustomInputPass';
 
 const LoginScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const loading = useSelector(state => state.user.loading);
+  const loading = useSelector(userSelectors.isLoginLoading);
+  const user = useSelector(userSelectors.user);
 
-  const [username, setUsername] = useState('phong@gmail.com');
-  const [password, setPassword] = useState('Phong123');
+  const [username, setUsername] = useState(user?.username);
+  const [password, setPassword] = useState(user?.password);
 
-  const handleLogin = async () => {
-    try {
-      const errorMessage = validateRegisterFields({ username, password });
+  const handleLogin = () => {
+    const errorMessage = validateRegisterFields({ username, password });
 
-      if (errorMessage) {
-        showToast('error', i18n.t('messages.error'), errorMessage);
-        return;
-      }
-
-      const result = await dispatch(loginUser({ username, password }));
-
-      if (loginUser.fulfilled.match(result)) {
-        navigation.navigate('BottomTabNavigator');
-        showToast('success', i18n.t('messages.loginSuccess'));
-      } else {
-        showToast(
-          'error',
-          i18n.t('messages.error'),
-          i18n.t('messages.somethingWentWrong'),
-        );
-      }
-    } catch (error) {
-      console.error('error', i18n.t('messages.error'), error.message);
+    if (errorMessage) {
+      showToast('error', i18n.t('messages.error'), errorMessage);
+      return;
     }
+    dispatch(loginRequest({ username, password }));
   };
 
   return (
     <View style={styles.container}>
       <CustomInput
+        title={i18n.t('auth.username')}
         value={username}
         onChangeText={setUsername}
         fullWidth
-        placeholder={i18n.t()}
+        placeholder={i18n.t(`auth.username`)}
       />
-      <CustomInput
+      <CustomInputPass
+        title={i18n.t('auth.password')}
         value={password}
         onChangeText={setPassword}
-        placeholder="Enter your password"
+        placeholder={i18n.t('auth.password')}
         fullWidth
       />
       <CustomButton
-        title="Đăng nhập"
+        title={i18n.t('auth.login')}
         onPress={handleLogin}
         fullWidth
         disabled={loading}
       />
+      <View style={styles.text}>
+        <Text>{i18n.t('auth.dontHaveAccount')}</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
+          <Text style={styles.textRegister}>
+            {i18n.t('auth.createAccount')}
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <FullScreenLoader visible={loading} />
     </View>
   );
 };
@@ -73,9 +71,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: COLORS.backgroundSecondary,
-    gap: SPACING.m,
+    backgroundColor: COLORS.backgroundWhite,
+    gap: SPACING.l,
     padding: SPACING.l,
+  },
+  text: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: SPACING.s,
+  },
+  textRegister: {
+    color: BASE_COLORS.info,
+    textDecorationLine: 'underline',
   },
 });
 
