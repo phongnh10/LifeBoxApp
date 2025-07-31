@@ -20,11 +20,7 @@ import {
   deleteUserFailure,
 } from './userSlice';
 
-import {
-  goToLogin,
-  goToMainTab,
-  goToRegister,
-} from '../../navigator/navigationActions';
+import { goToLogin, goToMainTab } from '../../navigator/navigationActions';
 import i18n from '../../../i18n';
 import { showToast } from '../../components/toast/toast';
 
@@ -35,33 +31,21 @@ function* handleRegister(action) {
     const checkUsername = yield call(getUserByUsername, username);
     if (checkUsername) {
       yield put(registerFailure(i18n.t('messages.emailAlreadyExists')));
-      showToast(
-        'error',
-        i18n.t('messages.error'),
-        i18n.t('messages.emailAlreadyExists'),
-      );
+      showToast('error', i18n.t('messages.emailAlreadyExists'));
       return;
     }
     const user = yield call(createUser, action.payload);
     if (!user) throw new Error('Register failed');
 
     yield put(registerSuccess(user));
-    showToast(
-      'success',
-      i18n.t('messages.success'),
-      i18n.t('messages.registrationSuccess'),
-    );
+    showToast('success', i18n.t('messages.registrationSuccess'));
 
     goToLogin();
   } catch (error) {
     yield put(
       registerFailure(error.message || i18n.t('messages.somethingWentWrong')),
     );
-    showToast(
-      'error',
-      i18n.t('messages.error'),
-      error.message || i18n.t('messages.somethingWentWrong'),
-    );
+    showToast('error', error.message || i18n.t('messages.somethingWentWrong'));
   }
 }
 
@@ -72,22 +56,14 @@ function* handleLogin(action) {
     if (!user) throw new Error(i18n.t('messages.invalidCredentials'));
 
     yield put(loginSuccess(user));
-    showToast(
-      'success',
-      i18n.t('messages.success'),
-      i18n.t('messages.loginSuccess'),
-    );
+    showToast('success', i18n.t('messages.loginSuccess'));
 
     goToMainTab();
   } catch (error) {
     yield put(
       loginFailure(error.message || i18n.t('messages.somethingWentWrong')),
     );
-    showToast(
-      'error',
-      i18n.t('messages.error'),
-      error.message || i18n.t('messages.somethingWentWrong'),
-    );
+    showToast('error', error.message || i18n.t('messages.somethingWentWrong'));
   }
 }
 

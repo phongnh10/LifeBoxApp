@@ -1,12 +1,12 @@
-import { openDB } from './db';
 import { v4 as uuidv4 } from 'uuid';
+import { getDB } from '../utils/databaseSetup';
 
-// 🔧 Chuẩn hóa dữ liệu ghi chú
+// Chuẩn hóa dữ liệu ghi chú
 const normalizeNoteData = note => {
   const now = new Date().toISOString();
 
   return {
-    id: note.id || uuidv4(), // UUID tạo id
+    id: uuidv4(),
     user_id: note.user_id,
     title: note.title || '',
     content: note.content || '',
@@ -16,9 +16,9 @@ const normalizeNoteData = note => {
   };
 };
 
-// ✅ Tạo ghi chú mới
+// Tạo ghi chú mới
 export const createNote = async noteData => {
-  const db = await openDB();
+  const db = getDB();
   const note = normalizeNoteData(noteData);
 
   try {
@@ -35,15 +35,16 @@ export const createNote = async noteData => {
         note.updatedAt,
       ],
     );
-    return note.id;
+    console.log(`[createNote] Note created: ${note.id}`);
+    return note;
   } catch (error) {
     throw new Error('Failed to create note: ' + error.message);
   }
 };
 
-// ✅ Cập nhật ghi chú
+// Cập nhật ghi chú
 export const updateNote = async noteData => {
-  const db = await openDB();
+  const db = getDB();
   const now = new Date().toISOString();
 
   try {
@@ -68,7 +69,7 @@ export const updateNote = async noteData => {
   }
 };
 
-// ✅ Xoá ghi chú
+// Xoá ghi chú
 export const deleteNote = async noteId => {
   const db = await openDB();
 
@@ -84,7 +85,7 @@ export const deleteNote = async noteId => {
   }
 };
 
-// ✅ Lấy danh sách ghi chú theo user
+// Lấy danh sách ghi chú theo user
 export const getNotesByUser = async userId => {
   const db = await openDB();
 

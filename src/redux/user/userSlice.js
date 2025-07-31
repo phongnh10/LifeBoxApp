@@ -12,7 +12,7 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    // ===== REGISTER =====
+    // register
     registerRequest: state => {
       state.register = { loading: true, error: null, success: false };
     },
@@ -28,7 +28,7 @@ const userSlice = createSlice({
       };
     },
 
-    // ===== LOGIN =====
+    // login
     loginRequest: state => {
       state.login = { loading: true, error: null, success: false };
     },
@@ -40,7 +40,7 @@ const userSlice = createSlice({
       state.login = { loading: false, error: action.payload, success: false };
     },
 
-    // ===== FETCH USER =====
+    // fetch user
     fetchUserRequest: state => {
       state.fetch = { loading: true, error: null, success: false };
     },
@@ -52,7 +52,7 @@ const userSlice = createSlice({
       state.fetch = { loading: false, error: action.payload, success: false };
     },
 
-    // ===== DELETE USER =====
+    // delete user
     deleteUserRequest: state => {
       state.delete = { loading: true, error: null, success: false };
     },
@@ -64,7 +64,7 @@ const userSlice = createSlice({
       state.delete = { loading: false, error: action.payload, success: false };
     },
 
-    // ===== LOGOUT =====
+    // logout
     logout: state => {
       state.user = null;
       state.register = { loading: false, error: null, success: false };
@@ -93,7 +93,7 @@ export const {
 
 export default userSlice.reducer;
 
-/** ✅ Selectors gọn trong 1 object */
+// Selectors
 export const userSelectors = {
   user: state => state.user.user,
 
@@ -101,8 +101,6 @@ export const userSelectors = {
   login: state => state.user.login,
   fetch: state => state.user.fetch,
   delete: state => state.user.delete,
-
-  // Nếu cần nhanh:
   isRegisterLoading: state => state.user.register.loading,
   isLoginLoading: state => state.user.login.loading,
 };

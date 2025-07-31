@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import Toast from 'react-native-toast-message';
 import CustomButton from '../../components/Buttons/CusstomBotton';
 import CustomInput from '../../components/Inputs/CustomInput';
 import { BASE_COLORS, COLORS, SPACING } from '../../utils';
@@ -10,6 +9,7 @@ import { loginRequest, userSelectors } from '../../redux/user/userSlice';
 import i18n from '../../../i18n';
 import FullScreenLoader from '../../components/Loading/FullScreenLoader';
 import CustomInputPass from '../../components/Inputs/CustomInputPass';
+import { showToast } from '../../components/toast/toast';
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -18,14 +18,14 @@ const LoginScreen = () => {
   const loading = useSelector(userSelectors.isLoginLoading);
   const user = useSelector(userSelectors.user);
 
-  const [username, setUsername] = useState(user?.username);
-  const [password, setPassword] = useState(user?.password);
+  const [username, setUsername] = useState(user?.username || 'phong@gmail.com');
+  const [password, setPassword] = useState(user?.password || 'Phong123');
 
   const handleLogin = () => {
     const errorMessage = validateRegisterFields({ username, password });
 
     if (errorMessage) {
-      showToast('error', i18n.t('messages.error'), errorMessage);
+      showToast('error', errorMessage);
       return;
     }
     dispatch(loginRequest({ username, password }));
@@ -94,12 +94,4 @@ const validateRegisterFields = ({ username, password }) => {
   if (password.length < 8)
     return i18n.t('validation.minCharacters', { min: 8 });
   return null;
-};
-
-const showToast = (type, title, message) => {
-  Toast.show({
-    type,
-    text1: title,
-    text2: message,
-  });
 };

@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator();
 const AppNavigator = () => (
   <NavigationContainer ref={navigationRef}>
     <Stack.Navigator
-      initialRouteName="LoginScreen"
+      initialRouteName="BottomTabNavigator"
       screenOptions={{
         headerShown: false,
         animation: 'slide_from_right',

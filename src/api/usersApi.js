@@ -3,7 +3,7 @@ import { getDB } from '../utils/databaseSetup';
 import { getSystemLanguage } from '../utils/language';
 import { v4 as uuidv4 } from 'uuid';
 
-// kiem
+//  Chuẩn hóa dữ liệu ghi chú
 const normalizeUserData = async data => {
   const now = new Date().toISOString();
   const [hashedPassword, systemLanguage] = await Promise.all([
@@ -82,7 +82,7 @@ export const loginUser = async ({ username, password }) => {
     }
 
     delete user.password;
-    console.log(`[loginUser] Login success: ${user.username}`);
+    console.log(`[loginUser] Login success: ${JSON.stringify(user, null, 2)}`);
     return user;
   } catch (error) {
     console.log('[loginUser] Failed:', error.message);

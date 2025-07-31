@@ -1,13 +1,20 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
+import { COLORS } from '../../utils';
+import CustomStatusBar from '../Statusbar/CustomStatusBar';
 
 const FullScreenLoader = ({ visible }) => {
   if (!visible) return null;
 
   return (
     <View style={styles.overlay}>
-      <ActivityIndicator animating={true} size="large" color="#6200ee" />
+      <CustomStatusBar color={COLORS.overlay} />
+      <ActivityIndicator
+        animating={true}
+        size="large"
+        color={COLORS.buttonPrimary}
+      />
     </View>
   );
 };
@@ -19,10 +26,10 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)', // nền mờ
+    backgroundColor: COLORS.overlay,
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 999, // đảm bảo hiển thị trên cùng
+    zIndex: 999,
   },
 });
 

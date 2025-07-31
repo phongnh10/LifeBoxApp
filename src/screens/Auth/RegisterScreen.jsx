@@ -1,5 +1,5 @@
 import { View, StyleSheet } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, {useState } from 'react';
 import CustomInput from '../../components/Inputs/CustomInput';
 import CustomInputPass from '../../components/Inputs/CustomInputPass';
 import CustomButton from '../../components/Buttons/CusstomBotton';
@@ -33,7 +33,7 @@ const RegisterScreen = () => {
     });
 
     if (errorMessage) {
-      showToast('error', i18n.t('messages.error'), errorMessage);
+      showToast('error', errorMessage);
       return;
     }
     dispatch(
